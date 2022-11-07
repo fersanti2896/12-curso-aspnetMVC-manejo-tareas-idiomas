@@ -1,4 +1,5 @@
 ﻿using ManejoTareas.Models;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System.Diagnostics;
@@ -20,8 +21,13 @@ namespace ManejoTareas.Controllers {
             return View();
         }
 
-        public IActionResult Privacy() {
-            return View();
+        [HttpPost]
+        public IActionResult CambiarIdioma(string cultura, string urlRetorno) {
+            Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+                                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cultura)),
+                                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(5) });
+
+            return LocalRedirect(urlRetorno);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

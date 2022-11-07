@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc.Razor;
+using ManejoTareas.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var politicaUsuarioAutenticados = new AuthorizationPolicyBuilder().RequireAuthenticatedUser()
@@ -48,14 +49,12 @@ builder.Services.AddLocalization(opc => {
 
 var app = builder.Build();
 
-var culturas = new[] { "es", "en" };
-
 app.UseRequestLocalization(opc => {
     /* Cultura por defecto */
     opc.DefaultRequestCulture = new RequestCulture("es");
 
     /* Culturas soportadas */
-    opc.SupportedUICultures = culturas.Select(cul => new CultureInfo(cul))
+    opc.SupportedUICultures = Constantes.culturasSoportadas.Select(cul => new CultureInfo(cul.Value))
                                       .ToList();
 });
 

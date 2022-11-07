@@ -42,8 +42,11 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - ManejoTareas - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container d-flex" style="justify-content: space-between">
+            <div>
+                &copy; 2022 - ManejoTareas - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+            <partial name="_ConfigIdioma" />
         </div>
     </footer>
     <partial name="_Traducciones" />
