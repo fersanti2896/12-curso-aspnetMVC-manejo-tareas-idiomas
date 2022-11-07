@@ -15,7 +15,12 @@ var politicaUsuarioAutenticados = new AuthorizationPolicyBuilder().RequireAuthen
 // Add services to the container.
 builder.Services.AddControllersWithViews(opc => {
     opc.Filters.Add(new AuthorizeFilter(politicaUsuarioAutenticados));
-}).AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
+}).AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+  .AddDataAnnotationsLocalization(opc => {
+      opc.DataAnnotationLocalizerProvider = (_, factoria) => 
+        factoria.Create(typeof(RecursoCompartido)
+      );
+  });
 
 /* Configurando el DbContext */
 builder.Services.AddDbContext<ApplicationDbContext>(opc => opc.UseSqlServer("name=DefaultConnection"));
