@@ -2,8 +2,10 @@ using ManejoTareas;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 var politicaUsuarioAutenticados = new AuthorizationPolicyBuilder().RequireAuthenticatedUser()
@@ -33,7 +35,23 @@ builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.Ap
     opc.AccessDeniedPath = "/Usuarios/Login";
 });
 
+/* Para idiomas - localizacion */
+builder.Services.AddLocalization(opc => {
+    opc.ResourcesPath = "Resources";
+});
+
 var app = builder.Build();
+
+var culturas = new[] { "es", "en" };
+
+app.UseRequestLocalization(opc => {
+    /* Cultura por defecto */
+    opc.DefaultRequestCulture = new RequestCulture("es");
+
+    /* Culturas soportadas */
+    opc.SupportedUICultures = culturas.Select(cul => new CultureInfo(cul))
+                                      .ToList();
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
