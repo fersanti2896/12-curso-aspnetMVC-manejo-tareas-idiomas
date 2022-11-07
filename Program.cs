@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 var builder = WebApplication.CreateBuilder(args);
 var politicaUsuarioAutenticados = new AuthorizationPolicyBuilder().RequireAuthenticatedUser()
@@ -14,7 +15,7 @@ var politicaUsuarioAutenticados = new AuthorizationPolicyBuilder().RequireAuthen
 // Add services to the container.
 builder.Services.AddControllersWithViews(opc => {
     opc.Filters.Add(new AuthorizeFilter(politicaUsuarioAutenticados));
-});
+}).AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
 
 /* Configurando el DbContext */
 builder.Services.AddDbContext<ApplicationDbContext>(opc => opc.UseSqlServer("name=DefaultConnection"));
